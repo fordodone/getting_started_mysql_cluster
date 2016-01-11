@@ -1,4 +1,12 @@
-cluster/volumes
 *.md5sum
 *.deb
 *.tar.gz
+
+cluster/volumes/ndbd1
+cluster/volumes/ndbd2
+cluster/volumes/ndb_mgmd1
+cluster/volumes/ndb_mgmd2
+cluster/volumes/mysqld1
+cluster/volumes/mysqld2
+cluster/volumes/client
+
