@@ -8,8 +8,6 @@ wget http://mirrors.kernel.org/ubuntu/pool/main/liba/libaio/libaio1_0.3.109-4_am
 md5sum libaio1_0.3.109-4_amd64.deb | awk '{print $1}' > libaio1_0.3.109-4_amd64.deb.md5sum && \ 
 diff <(cat libaio1_0.3.109-4_amd64.deb.md5sum) <(echo "cd9da2f52a5d7713e5080c5ed6916a41") || echo "md5sum is wrong"
 
-
-mkdir volumes
 mkdir -p volumes/ndbd1/common
 mkdir -p volumes/ndbd2/common
 mkdir -p volumes/ndb_mgmd1/common
