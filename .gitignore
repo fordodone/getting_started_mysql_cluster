@@ -1,0 +1,4 @@
+cluster/volumes
+*.md5sum
+*.deb
+*.tar.gz

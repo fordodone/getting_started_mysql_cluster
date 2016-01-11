@@ -1,0 +1,78 @@
+## FILE: docker-compose.yml 
+
+ndb_mgmd1:
+  hostname: ndb_mgmd1
+  container_name: ndb_mgmd1
+  build: .
+  cap_add:
+    - NET_ADMIN
+  volumes:
+    - ./volumes/ndb_mgmd1:/var/lib/mysql-cluster
+    - ./volumes/common:/var/lib/mysql-cluster/common
+  entrypoint: /var/lib/mysql-cluster/common/entry.sh ndb_mgmd 172.31.0.1/24
+
+ndb_mgmd2:
+  hostname: ndb_mgmd2
+  container_name: ndb_mgmd2
+  build: .
+  cap_add:
+    - NET_ADMIN
+  volumes:
+    - ./volumes/ndb_mgmd2:/var/lib/mysql-cluster
+    - ./volumes/common:/var/lib/mysql-cluster/common
+  entrypoint: /var/lib/mysql-cluster/common/entry.sh ndb_mgmd 172.31.0.2/24 
+
+ndbd1:
+  hostname: ndbd1
+  container_name: ndbd1
+  build: .
+  cap_add:
+    - NET_ADMIN
+  volumes:
+    - ./volumes/ndbd1:/var/lib/mysql-cluster
+    - ./volumes/common:/var/lib/mysql-cluster/common
+  entrypoint: /var/lib/mysql-cluster/common/entry.sh ndbd 172.31.0.11/24
+
+ndbd2:
+  hostname: ndbd2
+  container_name: ndbd2
+  build: .
+  cap_add:
+    - NET_ADMIN
+  volumes:
+    - ./volumes/ndbd2:/var/lib/mysql-cluster
+    - ./volumes/common:/var/lib/mysql-cluster/common
+  entrypoint: /var/lib/mysql-cluster/common/entry.sh ndbd 172.31.0.12/24
+
+mysqld1:
+  hostname: mysqld1
+  container_name: mysqld1
+  build: .
+  cap_add:
+    - NET_ADMIN
+  volumes:
+    - ./volumes/mysqld1:/var/lib/mysql-cluster
+    - ./volumes/common:/var/lib/mysql-cluster/common
+  entrypoint: /var/lib/mysql-cluster/common/entry.sh mysqld 172.31.0.21/24
+
+mysqld2:
+  hostname: mysqld2
+  container_name: mysqld2
+  build: .
+  cap_add:
+    - NET_ADMIN
+  volumes:
+    - ./volumes/mysqld2:/var/lib/mysql-cluster
+    - ./volumes/common:/var/lib/mysql-cluster/common
+  entrypoint: /var/lib/mysql-cluster/common/entry.sh mysqld 172.31.0.22/24
+
+client:
+  hostname: client
+  container_name: client
+  build: .
+  cap_add:
+    - NET_ADMIN
+  volumes:
+    - ./volumes/client:/var/lib/mysql-cluster
+    - ./volumes/common:/var/lib/mysql-cluster/common
+  entrypoint: /var/lib/mysql-cluster/common/entry.sh client 172.31.0.101/24
