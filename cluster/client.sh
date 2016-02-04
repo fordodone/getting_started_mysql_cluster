@@ -1,6 +1,10 @@
 #!/bin/bash
 
 case $1 in
+  shell)
+    # bash shell
+    docker exec -it client /bin/bash
+  ;;
   db)
     if [ "$2" != "" ]
     then
@@ -46,7 +50,7 @@ case $1 in
   ;;
   *)
     echo ""
-    echo "usage: client.sh <db|ndb_mgm|memstats|backup|load|drop>"
+    echo "usage: client.sh <shell|db|ndb_mgm|memstats|backup|load|drop|shutdown>"
     echo ""
   ;;
 esac
