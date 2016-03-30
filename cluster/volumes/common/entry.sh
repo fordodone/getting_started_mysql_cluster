@@ -2,16 +2,12 @@
 
 # capture args
 TYPE=$1
-IPADDR=$2
 
 # initial flag for first start
 if [ -f /var/lib/mysql-cluster/common/initial ]
 then
   INITIAL='--initial'
 fi
-
-# set internal cluster IP address
-ip addr add $IPADDR dev eth0
 
 # helpful aliases
 alias show='/usr/local/mysql/bin/ndb_mgm -c "172.31.0.1,172.31.0.2" -e show'

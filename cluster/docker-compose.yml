@@ -8,10 +8,13 @@ services:
     build: .
     cap_add:
       - NET_ADMIN
+    networks:
+      backend:
+        ipv4_address: 172.31.0.1
     volumes:
       - ./volumes/ndb_mgmd1:/var/lib/mysql-cluster
       - ./volumes/common:/var/lib/mysql-cluster/common
-    entrypoint: /var/lib/mysql-cluster/common/entry.sh ndb_mgmd 172.31.0.1/24
+    entrypoint: /var/lib/mysql-cluster/common/entry.sh ndb_mgmd 
   
   ndb_mgmd2:
     hostname: ndb_mgmd2
@@ -19,10 +22,13 @@ services:
     build: .
     cap_add:
       - NET_ADMIN
+    networks:
+      backend:
+        ipv4_address: 172.31.0.2
     volumes:
       - ./volumes/ndb_mgmd2:/var/lib/mysql-cluster
       - ./volumes/common:/var/lib/mysql-cluster/common
-    entrypoint: /var/lib/mysql-cluster/common/entry.sh ndb_mgmd 172.31.0.2/24 
+    entrypoint: /var/lib/mysql-cluster/common/entry.sh ndb_mgmd 
   
   ndbd1:
     hostname: ndbd1
@@ -30,10 +36,13 @@ services:
     build: .
     cap_add:
       - NET_ADMIN
+    networks:
+      backend:
+        ipv4_address: 172.31.0.11
     volumes:
       - ./volumes/ndbd1:/var/lib/mysql-cluster
       - ./volumes/common:/var/lib/mysql-cluster/common
-    entrypoint: /var/lib/mysql-cluster/common/entry.sh ndbd 172.31.0.11/24
+    entrypoint: /var/lib/mysql-cluster/common/entry.sh ndbd 
   
   ndbd2:
     hostname: ndbd2
@@ -41,10 +50,13 @@ services:
     build: .
     cap_add:
       - NET_ADMIN
+    networks:
+      backend:
+        ipv4_address: 172.31.0.12
     volumes:
       - ./volumes/ndbd2:/var/lib/mysql-cluster
       - ./volumes/common:/var/lib/mysql-cluster/common
-    entrypoint: /var/lib/mysql-cluster/common/entry.sh ndbd 172.31.0.12/24
+    entrypoint: /var/lib/mysql-cluster/common/entry.sh ndbd 
   
   mysqld1:
     hostname: mysqld1
@@ -52,10 +64,13 @@ services:
     build: .
     cap_add:
       - NET_ADMIN
+    networks:
+      backend:
+        ipv4_address: 172.31.0.21
     volumes:
       - ./volumes/mysqld1:/var/lib/mysql-cluster
       - ./volumes/common:/var/lib/mysql-cluster/common
-    entrypoint: /var/lib/mysql-cluster/common/entry.sh mysqld 172.31.0.21/24
+    entrypoint: /var/lib/mysql-cluster/common/entry.sh mysqld 
   
   mysqld2:
     hostname: mysqld2
@@ -63,10 +78,13 @@ services:
     build: .
     cap_add:
       - NET_ADMIN
+    networks:
+      backend:
+        ipv4_address: 172.31.0.22
     volumes:
       - ./volumes/mysqld2:/var/lib/mysql-cluster
       - ./volumes/common:/var/lib/mysql-cluster/common
-    entrypoint: /var/lib/mysql-cluster/common/entry.sh mysqld 172.31.0.22/24
+    entrypoint: /var/lib/mysql-cluster/common/entry.sh mysqld 
   
   client:
     hostname: client
@@ -74,7 +92,18 @@ services:
     build: .
     cap_add:
       - NET_ADMIN
+    networks:
+      backend:
+        ipv4_address: 172.31.0.101
     volumes:
       - ./volumes/client:/var/lib/mysql-cluster
       - ./volumes/common:/var/lib/mysql-cluster/common
-    entrypoint: /var/lib/mysql-cluster/common/entry.sh client 172.31.0.101/24
+    entrypoint: /var/lib/mysql-cluster/common/entry.sh client 
+
+networks:
+  backend:
+    driver: bridge
+    ipam: 
+      config:
+      - subnet:   172.31.0.0/24
+        gateway:  172.31.0.254
