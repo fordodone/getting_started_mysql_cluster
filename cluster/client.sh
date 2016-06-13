@@ -42,7 +42,7 @@ case $1 in
     docker exec -it client bash -c "echo 'drop database testdata;' | mysql -h 172.31.0.21 -prootme"
   ;;
   shutdown)
-    # show ndbd memory stats
+    # gracefully shutdown cluster
     docker exec -it client ndb_mgm -e "shutdown"
     docker exec -it mysqld1 /usr/local/mysql/support-files/mysql.server stop
     docker exec -it mysqld2 /usr/local/mysql/support-files/mysql.server stop
