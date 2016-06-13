@@ -44,7 +44,7 @@ case $TYPE in
   ;;
   *)
     echo ""
-    echo "usage: entry.sh <ndb_mgmd|ndbd|mysqld|client> <IFADDR>"
+    echo "usage: entry.sh <ndb_mgmd|ndbd|mysqld|client>"
     echo ""
     exit
   ;;
