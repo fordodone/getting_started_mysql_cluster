@@ -1,0 +1,56 @@
+## FILE: Dockerfile.ndbcluster
+FROM debian:8.3
+MAINTAINER Jonathan Lowsley <jlowsley@gmail.com>
+
+# set timezone explicitly
+RUN export DEBIAN_FRONTEND="noninteractive" \
+    && echo "America/Los_Angeles" > /etc/timezone \
+    && dpkg-reconfigure tzdata
+
+# dependencies
+#RUN apt-get install -y libaio1
+COPY libaio1_0.3.109-4_amd64.deb /tmp
+
+# install
+RUN dpkg -i /tmp/libaio1_0.3.109-4_amd64.deb
+
+# set archive file
+ENV MYSQL_CLUSTER_TARBALL mysql-cluster-gpl-7.4.6-linux-glibc2.5-x86_64.tar.gz
+
+# set the user, groups, and data dir
+ENV USER mysql
+ENV GROUP mysql
+ENV DATADIR /var/lib/mysql-cluster
+
+# create mysql group and user
+RUN groupadd -g 3306 $GROUP \
+    && useradd -s /bin/false -u 3306 -g 3306 $USER
+
+# create data dir
+RUN mkdir -p $DATADIR \
+    && chown $USER:$GROUP $DATADIR
+
+# copy in cluster tarball
+COPY ${MYSQL_CLUSTER_TARBALL} /usr/local
+
+# use bash wrapper to get variable substitution
+RUN ["/bin/bash","-c", "\
+    MYSQL_CLUSTER_DIR=${MYSQL_CLUSTER_TARBALL/.tar.gz/} ;\
+    cd /usr/local \
+    && tar xzf ${MYSQL_CLUSTER_TARBALL} \
+    && rm ${MYSQL_CLUSTER_TARBALL} \
+    && ln -s ${MYSQL_CLUSTER_DIR} mysql \
+    && chown -R root:mysql /usr/local/mysql \
+    && chown -R mysql /usr/local/mysql/data \
+    "] 
+
+# copy in mysql config
+COPY my.cnf /etc
+
+# set mysql cluster binaries path
+ENV PATH $PATH:/usr/local/mysql/bin
+
+# define entrypoint with command line flags
+ENTRYPOINT ["/bin/sleep","infinity"]
+
+
